@@ -5,51 +5,56 @@
     "www.conf": "nginx",
     "zz-docker.conf": "ini"
   },
+  "filewatcher.autoClearConsole": true,
+  "filewatcher.commands": [
+    {
+      "event": "onFileChange",
+      "match": "./fpm-dev/*",
+      "vscodeTask": ["workbench.action.tasks.runTask", "fpm-dev"]
+    },
+    {
+      "event": "onFileChange",
+      "match": "./fpm-prod/*",
+      "vscodeTask": ["workbench.action.tasks.runTask", "fpm-prod"]
+    },
+    {
+      "event": "onFileChange",
+      "match": "./nginx-dev/*",
+      "vscodeTask": ["workbench.action.tasks.runTask", "nginx-dev"]
+    },
+    {
+      "event": "onFileChange",
+      "match": "./nginx-prod/*",
+      "vscodeTask": ["workbench.action.tasks.runTask", "nginx-prod"]
+    },
+    {
+      "event": "onFileChange",
+      "match": "./quality/*",
+      "vscodeTask": ["workbench.action.tasks.runTask", "quality"]
+    },
+    {
+      "event": "onFileChange",
+      "match": ".github/workflows/*",
+      "vscodeTask": ["workbench.action.tasks.runTask", "act"]
+    }
+  ],
+  "filewatcher.shell": "/usr/bin/zsh",
   "material-icon-theme.files.associations": {
     "www.conf": "nginx"
   },
   "material-icon-theme.folders.associations": {
+    "8.0": "php",
+    "8.1": "php",
+    "8.2": "php",
+    "8.3": "php",
     "fpm-dev": "php",
     "fpm-prod": "php",
-    "nginx-fpm-dev": "global",
-    "nginx-fpm-prod": "global",
-    "quality": "error"
+    "nginx-dev": "public",
+    "nginx-prod": "public",
+    "quality": "test"
   },
-  "filewatcher.autoClearConsole": true,
-  "filewatcher.shell": "/usr/bin/zsh",
-  "workbench.colorCustomizations": {
-    "sideBar.background": "#35343f"
-  },
-  "filewatcher.commands": [
-    {
-      "match": "./fpm-dev/*",
-      "vscodeTask": ["workbench.action.tasks.runTask", "fpm-dev"],
-      "event": "onFileChange"
-    },
-    {
-      "match": "./fpm-prod/*",
-      "vscodeTask": ["workbench.action.tasks.runTask", "fpm-prod"],
-      "event": "onFileChange"
-    },
-    {
-      "match": "./nginx-fpm-dev/*",
-      "vscodeTask": ["workbench.action.tasks.runTask", "nginx-fpm-dev"],
-      "event": "onFileChange"
-    },
-    {
-      "match": "./nginx-fpm-prod/*",
-      "vscodeTask": ["workbench.action.tasks.runTask", "nginx-fpm-prod"],
-      "event": "onFileChange"
-    },
-    {
-      "match": "./quality/*",
-      "vscodeTask": ["workbench.action.tasks.runTask", "quality"],
-      "event": "onFileChange"
-    },
-    {
-      "match": ".github/workflows/*",
-      "vscodeTask": ["workbench.action.tasks.runTask", "act"],
-      "event": "onFileChange"
-    }
-  ]
+  // "window.zoomLevel": -1,
+  "editor.minimap.enabled": false,
+  "editor.minimap.autohide": true
+  // "workbench.colorTheme": "GitHub Dark Dimmed"
 }

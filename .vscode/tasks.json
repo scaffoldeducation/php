@@ -8,21 +8,21 @@
       "presentation": { "clear": true }
     },
     {
-      "label": "fpm-prod",
+      "label": "prod",
       "type": "shell",
-      "command": "./test.build.sh fpm-prod && ./test.run.sh fpm-prod",
+      "command": "./test.build.sh prod && ./test.run.sh prod",
       "presentation": { "clear": true }
     },
     {
-      "label": "nginx-fpm-dev",
+      "label": "nginx-dev",
       "type": "shell",
-      "command": "./test.build.sh nginx-fpm-dev && ./test.run.sh nginx-fpm-dev",
+      "command": "./test.build.sh nginx-dev && ./test.run.sh nginx-dev",
       "presentation": { "clear": true }
     },
     {
-      "label": "nginx-fpm-prod",
+      "label": "nginx-prod",
       "type": "shell",
-      "command": "./test.build.sh nginx-fpm-prod && ./test.run.sh nginx-fpm-prod",
+      "command": "./test.build.sh nginx-prod && ./test.run.sh nginx-prod",
       "presentation": { "clear": true }
     },
     {
