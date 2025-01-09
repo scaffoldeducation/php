@@ -1,0 +1,10 @@
+debug: false
+insecure: false
+quiet: true
+timeout: 5m0s
+severity:
+ - UNKNOWN
+ - LOW
+ - MEDIUM
+ - HIGH
+ - CRITICAL
