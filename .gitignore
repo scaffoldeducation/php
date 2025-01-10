@@ -3,4 +3,4 @@
 .env
 .secrets
 .vscode/*
-pipeline.log
+logs/

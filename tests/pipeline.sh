@@ -6,7 +6,8 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Redirect all logs to pipeline.log
-exec > "${SCRIPT_DIR}/../pipeline.log" 2>&1
+[ -d "${SCRIPT_DIR}/../logs" ] || mkdir -p "${SCRIPT_DIR}/../logs"
+exec > "${SCRIPT_DIR}/logs/pipeline.log" 2>&1
 
 # Array of script names to be executed
 scripts=(
