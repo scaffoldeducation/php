@@ -7,24 +7,58 @@ jobs:
     strategy:
       fail-fast: true
       max-parallel: 5
-      matrix: { type: [fpm-dev, fpm-prod, nginx-fpm-dev, nginx-fpm-prod, quality] }
-
+      matrix:
+        include: [
+          {version: 8.0.30, alpine_version: 3.16, tag: dev },
+          {version: 8.0.30, alpine_version: 3.16, tag: prod },
+          {version: 8.1.31, alpine_version: 3.21, tag: dev },
+          {version: 8.1.31, alpine_version: 3.21, tag: prod },
+          {version: 8.2.27, alpine_version: 3.21, tag: dev },
+          {version: 8.2.27, alpine_version: 3.21, tag: prod },
+        ]
     steps:
       - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v1
 
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v5
-        with: { load: true, context: "${{ matrix.type }}", tags: "scaffoldeducation/php8:${{ matrix.type }}" }
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Test images
-        run: ./test.build.sh ${{ matrix.type }} && ./test.run.sh ${{ matrix.type }}
+      - name: Build and Push Docker images
+        run: |
+          MAJOR=$(echo ${{ matrix.version }} | cut -d. -f1)
+          MINOR=$(echo ${{ matrix.version }} | cut -d. -f2)
+          PATCH=$(echo ${{ matrix.version }} | cut -d. -f3)
+          PATCH_TAG="scaffoldeducation/php:${MAJOR}.${MINOR}.${PATCH}-${{ matrix.tag }}"
+          MINOR_TAG="scaffoldeducation/php:${MAJOR}.${MINOR}-${{ matrix.tag }}"
+          MAJOR_TAG="scaffoldeducation/php:${MAJOR}-${{ matrix.tag }}"
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v3
-        if: github.ref == 'refs/heads/main' && github.repository == 'scaffoldeducation/php8'
-        with: { username: "${{ secrets.DOCKERHUB_USERNAME }}", password: "${{ secrets.DOCKERHUB_PASSWORD }}" }
+          docker build \
+            --build-arg PHP_VERSION="${{ matrix.version }}" \
+            --build-arg ALPINE_VERSION="${{ matrix.alpine_version }}" \
+            --target "${{ matrix.tag }}" \
+            -f Dockerfile \
+            -t "${PATCH_TAG}" .
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        if: github.ref == 'refs/heads/main' && github.repository == 'scaffoldeducation/php8'
-        with: { push: true, context: "${{ matrix.type }}", tags: "scaffoldeducation/php8:${{ matrix.type }}" }
+          docker tag "${PATCH_TAG}" "${MINOR_TAG}"
+          docker tag "${PATCH_TAG}" "${MAJOR_TAG}"
+
+          if [ "${{ matrix.tag }}" == "prod" ]; then
+            docker tag "${PATCH_TAG}" "scaffoldeducation/php:${MAJOR}.${MINOR}.${PATCH}"
+            docker tag "${PATCH_TAG}" "scaffoldeducation/php:${MAJOR}.${MINOR}"
+            docker tag "${PATCH_TAG}" "scaffoldeducation/php:${MAJOR}"
+            docker tag "${PATCH_TAG}" "scaffoldeducation/php:latest"
+          fi
+
+          docker push "${PATCH_TAG}"
+          docker push "${MINOR_TAG}"
+          docker push "${MAJOR_TAG}"
+
+          if [ "${{ matrix.tag }}" == "prod" ]; then
+            docker push "scaffoldeducation/php:${MAJOR}.${MINOR}.${PATCH}"
+            docker push "scaffoldeducation/php:${MAJOR}.${MINOR}"
+            docker push "scaffoldeducation/php:${MAJOR}"
+            docker push "scaffoldeducation/php:latest"
+          fi
