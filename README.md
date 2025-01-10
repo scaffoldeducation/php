@@ -2,7 +2,7 @@
   <img src="https://github.com/scaffoldeducation/php8/raw/main/.github/docker-php.png" width="198" />
 </p>
 
-<h1 align="center">Scaffold PHP 8 Docker Image</h1>
+<h1 align="center">Scaffold Education PHP</h1>
 
 <br>
 
@@ -11,35 +11,23 @@
 
 <br>
 
-A Docker image created on top of [**php-fpm** official image](https://hub.docker.com/_/php) running on Alpine 3.16. It is a multi-environment/multi-purpose image that has several PHP extensions installed, such as MongoDB and Xdebug for example.
-
-The final size of the images is considerably small if you take into account the content of each image:
-
-```
-scaffoldeducation/php8:fpm-dev          277MB
-scaffoldeducation/php8:fpm-prod         277MB
-scaffoldeducation/php8:nginx-fpm-dev    321MB
-scaffoldeducation/php8:nginx-fpm-prod   321MB
-scaffoldeducation/php8:quality          341MB
-```
+This is a Docker image created on top of [**php** official image](https://hub.docker.com/_/php) running on Alpine. It is a multi-environment/multi-purpose image that has several PHP extensions installed, such as MongoDB and Xdebug for example.
+> For complete list of dependencies, see the [**Contents**](#contents) section.
 
 <br>
-
-**Summary**
 
 <!-- TOC -->
 
 - [Usage](#usage)
 - [Tags](#tags)
 - [Contents](#contents)
+  - [Features](#features)
   - [Core](#core)
-  - [Tools](#tools)
   - [Libs](#libs)
   - [PHP Extensions](#php-extensions)
-  - [Nginx best practices](#nginx-best-practices)
   - [Quality Tools](#quality-tools)
-- [Check versions](#check-versions)
-- [TODO](#todo)
+- [Vulnerabilities](#vulnerabilities)
+- [Development](#development)
 
 <!-- /TOC -->
 
@@ -48,12 +36,11 @@ scaffoldeducation/php8:quality          341MB
 ## Usage
 
 ```Dockerfile
-FROM scaffoldeducation/php8:fpm-dev
-FROM scaffoldeducation/php8:fpm-prod
-FROM scaffoldeducation/php8:nginx-fpm-dev
-FROM scaffoldeducation/php8:nginx-fpm-prod
-FROM scaffoldeducation/php8:quality
+FROM scaffoldeducation/php:latest
+FROM scaffoldeducation/php:<TAG>
 ```
+
+> Notice that `scaffoldeducation/php:latest` will generate the same image as `scaffoldeducation/php:<LATEST_MAJOR>-prod` tag.
 
 <br>
 
@@ -61,13 +48,18 @@ FROM scaffoldeducation/php8:quality
 
 <br>
 
-| Tag                  | Description                                                                                        |
-|----------------------|----------------------------------------------------------------------------------------------------|
-| **`fpm-dev`**        | it has a lot of extensions installed, but not `opcache`                                            |
-| **`fpm-prod`**       | it has everything from `fpm-dev` except `xdebug` and it includes `opcache`                         |
-| **`nginx-fpm-dev`**  | based on `fpm-dev`, it has nginx installed with SSL support                                        |
-| **`nginx-fpm-prod`** | same above but based on `fpm-prod`                                                                 |
-| **`quality`**        | it descends from `fpm-dev` too but its main purpose is to run [code quality tools](#quality-tools) |
+- `latest`, `8`, `8-prod`, `8.2`, `8.2-prod`, `8.2.26-prod`
+- `8.2-dev`, `8.2.26-dev`
+- `8.1`, `8.1-prod`, `8.1.31-prod`
+- `8.1-dev`, `8.1.31-dev`
+- `8.0`, `8.0-prod`, `8.0.30-prod`
+- `8.0-dev`, `8.0.30-dev`
+
+<br>
+
+> **Warning**: It's not recommended to use 8.0 tags due to security vulnerabilities.
+
+> **Note**: We'll add PHP 8.3 and 8.4 in future releases.
 
 <br>
 
@@ -75,39 +67,88 @@ FROM scaffoldeducation/php8:quality
 
 <br>
 
-### Core
+### Features
 
-- Alpine Linux `3.16`
-- php-fpm `8.0.27`
-- nginx `1.22.1`
+- Supports JPG, PNG and WebP image formats
+- Xdebug for debugging on dev environment
+- Support for MongoDB and Redis
 
 <br>
 
-### Tools
+### Core
 
-- dockerize `0.7.0`
-- supervisor `0.6.3`
-- composer `2`
+- Alpine Linux
+- php
+- composer
 
 <br>
 
 ### Libs
 
-- **dependencies**: `bash` `freetype` `ghostscript` `gifsicle` `icu` `imagemagick` `jpegoptim` `less` `libjpeg-turbo` `libldap` `libpng` `libpq` `libzip-dev` `openssh-client` `optipng` `pngquant` `procps` `shadow` `su-exec`
+- **system**
+    ```
+    bash
+    freetype
+    gettext
+    ghostscript
+    gifsicle
+    icu
+    imagemagick
+    jpegoptim
+    less
+    libjpeg-turbo
+    libldap
+    libpng
+    libpq
+    libzip-dev
+    openssh-client
+    optipng
+    pngquant
+    procps
+    shadow
+    su-exec
+    ```
 
-- **build-dependencies**: `freetype-dev` `icu-dev` `imagemagick-dev` `libedit-dev` `libjpeg-turbo-dev` `libpng-dev` `libxml2-dev` `linux-headers` `oniguruma-dev` `openldap-dev` `postgresql-dev`
+- **dependencies**
+    ```
+    freetype-dev
+    icu-dev
+    imagemagick-dev
+    libedit-dev
+    libjpeg-turbo-dev
+    libpng-dev
+    libwebp-dev
+    libwebp-tools
+    libxml2-dev
+    linux-headers
+    oniguruma-dev
+    openldap-dev
+    ```
 
 <br>
 
 ### PHP Extensions
 
-- **`mysqli`** **`mongodb`** **`redis`** **`xdebug`** `bcmath` `calendar` `exif` `gd` `imagick` `intl` `ldap` `mbstring` `opcache` `pcntl` `pdo` `pdo_mysql` `pdo_pgsql` `soap` `sockets` `xml` `zip`
-
-<br>
-
-### Nginx best practices
-
-- **`h5bp`** `3.3.0` for nginx performance and security
+- **`mysqli`**
+- **`mongodb`**
+- **`redis`**
+- **`xdebug`** (only dev)
+- `bcmath`
+- `calendar`
+- `exif`
+- `gd`
+- `imagick`
+- `intl`
+- `ldap`
+- `mbstring`
+- `opcache` (only prod)
+- `pcntl`
+- `pdo`
+- `pdo_mysql`
+- `soap`
+- `sockets`
+- `xml`
+- `zip`
 
 <br>
 
@@ -123,21 +164,27 @@ FROM scaffoldeducation/php8:quality
 
 <br>
 
-## Check versions
+## Vulnerabilities
 
+The images are checked for vulnerabilities with `trivy`:
 ```sh
-php --ri imagick  # 3.7.0
-php --ri mongodb  # 1.17.0
-php --ri pcov     # 1.0.11
-php --ri redis    # 6.0.2
-php --ri xdebug   # 3.2.2
+trivy image scaffoldeducation/php:8.0.30-dev --scanners vuln
+
+scaffoldeducation/php:8.0.30-dev (alpine 3.16.7)
+
+Total: 0 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
 ```
 
 <br>
 
-## TODO
+## Development
 
-- [ ] Allow customize versions of PECL extensions
-- [ ] Write tests for SSL support in nginx
+To include new features or fix some bugs, you can create a PR of your changes to this repository. You can test your changes locally with:
+
+```sh
+tests/pipeline.sh
+```
+
+in the root of the project. It'll run many build and test steps for each version. This script creates logs in `pipeline.log` file at the root.
 
 <br>
