@@ -4,10 +4,11 @@ set -e
 
 # Determine the directory where the script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT="${SCRIPT_DIR}/.."
 
 # Redirect all logs to pipeline.log
-[ -d "${SCRIPT_DIR}/../logs" ] || mkdir -p "${SCRIPT_DIR}/../logs"
-exec > "${SCRIPT_DIR}/logs/pipeline.log" 2>&1
+[ -d "${PROJECT}/logs" ] || mkdir -p "${PROJECT}/logs"
+exec > "${PROJECT}/logs/pipeline.log" 2>&1
 
 # Array of script names to be executed
 scripts=(
