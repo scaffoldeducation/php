@@ -1,9 +1,8 @@
 name: Deploy images to Docker Hub
 on: [push, workflow_dispatch]
-
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: true
       max-parallel: 5
