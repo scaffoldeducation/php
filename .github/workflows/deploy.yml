@@ -1,5 +1,8 @@
 name: Deploy images to Docker Hub
-on: [push, workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
 jobs:
   deploy:
     runs-on: ubuntu-24.04
