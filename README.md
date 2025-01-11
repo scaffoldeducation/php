@@ -26,8 +26,8 @@ This is a Docker image created on top of [**php** official image](https://hub.do
   - [Libs](#libs)
   - [PHP Extensions](#php-extensions)
   - [Quality Tools](#quality-tools)
-- [Vulnerabilities](#vulnerabilities)
 - [Development](#development)
+- [Vulnerabilities](#vulnerabilities)
 
 <!-- /TOC -->
 
@@ -164,19 +164,6 @@ FROM scaffoldeducation/php:<TAG>
 
 <br>
 
-## Vulnerabilities
-
-The images are checked for vulnerabilities with `trivy`:
-```sh
-trivy image scaffoldeducation/php:8.0.30-dev --scanners vuln
-
-scaffoldeducation/php:8.0.30-dev (alpine 3.16.7)
-
-Total: 0 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
-```
-
-<br>
-
 ## Development
 
 To include new features or fix some bugs, you can create a PR of your changes to this repository. You can test your changes locally with:
@@ -185,6 +172,24 @@ To include new features or fix some bugs, you can create a PR of your changes to
 tests/pipeline.sh
 ```
 
-in the root of the project. It'll run many build and test steps for each version. This script creates logs in `pipeline.log` file at the root.
+in the root of the project. It'll run many build and test steps for each version. You can also run these scripts manually and independently. The pipeline script creates logs in `logs/pipeline.log` file.
+
+<br>
+
+## Vulnerabilities
+
+The images are checked for vulnerabilities with `trivy` and `grype`:
+```sh
+trivy image scaffoldeducation/php:8.2.27-prod --scanners vuln
+2025-01-10T18:58:20-03:00	INFO	[vuln] Vulnerability scanning is enabled
+2025-01-10T18:58:20-03:00	INFO	Detected OS	family="alpine" version="3.21.2"
+2025-01-10T18:58:20-03:00	WARN	This OS version is not on the EOL list	family="alpine" version="3.21"
+2025-01-10T18:58:20-03:00	INFO	[alpine] Detecting vulnerabilities...	os_version="3.21" repository="3.21" pkg_num=140
+2025-01-10T18:58:20-03:00	INFO	Number of language-specific files	num=0
+
+scaffoldeducation/php:8.2.27-prod (alpine 3.21.2)
+
+Total: 0 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+```
 
 <br>
