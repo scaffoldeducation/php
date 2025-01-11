@@ -48,6 +48,11 @@ FROM scaffoldeducation/php:<TAG>
 
 <br>
 
+> `Source code at`  
+> [**github.com/scaffoldeducation/php**](https://github.com/scaffoldeducation/php)
+
+<br>
+
 - `latest`, `8`, `8-prod`, `8.2`, `8.2-prod`, `8.2.26-prod`
 - `8.2-dev`, `8.2.26-dev`
 - `8.1`, `8.1-prod`, `8.1.31-prod`
