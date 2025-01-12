@@ -183,7 +183,7 @@ in the root of the project. It'll run many build and test steps for each version
 
 ## Vulnerabilities
 
-The images are checked for vulnerabilities with `trivy` and `grype`:
+The images are checked for vulnerabilities with `trivy`:
 ```sh
 trivy image scaffoldeducation/php:8.2.27-prod --scanners vuln
 2025-01-10T18:58:20-03:00	INFO	[vuln] Vulnerability scanning is enabled
