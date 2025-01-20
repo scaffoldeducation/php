@@ -27,7 +27,6 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 COPY --from=composer /usr/bin/composer /usr/local/bin/
 EXPOSE ${PHP_FPM_LISTEN}
 HEALTHCHECK --start-period=1s CMD nc -zv 127.0.0.1 ${PHP_FPM_LISTEN} || exit 1
-CMD ["php-fpm"]
 
 # Create dev image.
 # ------------------------------------------------------------------------------
@@ -43,6 +42,7 @@ RUN set -x && apk add --no-cache --no-scripts -uUl ${DEPS} && apk add --no-cache
   && rm -rf ${CLEANUP_PATHS}
 COPY --chmod=755 entrypoint scaffold.ini xdebug.ini zz-php-fpm.conf /scaffold/
 ENTRYPOINT ["/scaffold/entrypoint"]
+CMD ["php-fpm"]
 
 # Create prod image.
 # ------------------------------------------------------------------------------
@@ -59,3 +59,4 @@ RUN set -x && apk add --no-cache --no-scripts -uUl ${DEPS} && apk add --no-cache
   && rm -rf ${CLEANUP_PATHS}
 COPY --chmod=755 entrypoint scaffold.ini zz-php-fpm.conf /scaffold/
 ENTRYPOINT ["/scaffold/entrypoint"]
+CMD ["php-fpm"]
