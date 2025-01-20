@@ -10,7 +10,7 @@ ARG ASUSER=1000 USERNAME=scaffold ENV_NAME=development PHP_VERSION=${PHP_VERSION
   PHP_DATE_TIMEZONE=UTC PHP_DEFAULT_SOCKET_TIMEOUT=300 PHP_FPM_LISTEN=9000 PHP_FPM_MAX_CHILDREN=10 \
   PHP_FPM_REQUEST_TERMINATE_TIMEOUT=300 PHP_INI_DIR=/usr/local/etc/php PHP_MAX_EXECUTION_TIME=300 \
   PHP_MAX_INPUT_TIME=300 PHP_MAX_INPUT_VARS=10000 PHP_MEMORY_LIMIT=6G PHP_POST_MAX_SIZE=800M PHP_UPLOAD_MAX_FILESIZE=500M  \
-  DEPS='bash gettext libcurl openssl sqlite-libs su-exec' \
+  DEPS='bash busybox gettext libcurl openssl sqlite-libs su-exec' \
   BUILD_DEPS="${PHPIZE_DEPS}" \
   DEL_DEPS='curl openssl tar xz' \
   CLEANUP_PATHS="${PHP_INI_DIR}/php.ini-* /root/.cache /tmp/* /usr/lib/libx265.so.199 /usr/local/lib/php/.channels /usr/local/lib/php/.depdb* /usr/local/lib/php/.depdblock* /usr/local/lib/php/.filemap /usr/local/lib/php/.lock /usr/local/lib/php/.registry /usr/local/lib/php/doc /usr/local/lib/php/test /usr/src/* /var/cache/apk/* /var/log/* /var/tmp/*"
